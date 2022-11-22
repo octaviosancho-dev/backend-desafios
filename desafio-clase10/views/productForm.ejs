@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Producto - EJS</title>
+    <link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+			crossorigin="anonymous"
+		/>
+  </head>
+  <body>
+    <div class="container w-25 d-flex flex-column gap-4 m-5 p-5 mx-auto border border rounded border-primary">
+      <h1 class="text-primary fs-3">Ingrese los datos de Producto</h1>
+      <form class="container w-75 d-flex flex-column gap-4" action="/products" method="POST">
+        <input class="form-control" type="text" name="title" placeholder="Ingrese nombre">
+        <input class="form-control" type="text" name="price" placeholder="Ingrese precio">
+        <input class="form-control" type="text" name="thumbnail" placeholder="Ingrese url de imagen">
+        <input class="btn btn-primary w-50 mx-auto" type="submit" value="Enviar">
+      </form>
+      <a class="" href="/">
+        <button class="btn btn-success btn-sm">Ver Productos</button>
+      </a>
+    </div>
+
+  </body>
+</html>

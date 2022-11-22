@@ -1,0 +1,16 @@
+{
+  "name": "desafio-clase4",
+  "version": "1.0.0",
+  "description": "desafio 4 coderhouse",
+  "main": "class.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "author": "octavio sancho",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
+  }
+}
