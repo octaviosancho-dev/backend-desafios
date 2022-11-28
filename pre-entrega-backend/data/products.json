@@ -1,0 +1,32 @@
+[
+  {
+    "name": "coffee",
+    "description": "black coffee desc",
+    "code": 31241,
+    "image": "url image link",
+    "price": 100,
+    "stock": 213,
+    "id": 1,
+    "timestamp": 1669661839013
+  },
+  {
+    "name": "coffee descaf",
+    "description": "descaf coffee desc",
+    "code": 31240,
+    "image": "url image link",
+    "price": 140,
+    "stock": 21,
+    "id": 2,
+    "timestamp": 1669661879693
+  },
+  {
+    "name": "machine",
+    "description": "coffee machine",
+    "code": 3330,
+    "image": "url image link",
+    "price": 1000,
+    "stock": 120,
+    "id": 3,
+    "timestamp": 1669662303891
+  }
+]

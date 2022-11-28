@@ -1,6 +1,9 @@
-const fs = require('fs');
+//* Clase Contenedora, persistencia de productos y carrito en File System
 
-class Contenedor {
+const fs = require('fs');
+const availableProducts = require('../data/products.json') 
+
+class Container {
   constructor(nombreArchivo) {
     this.nombreArchivo = nombreArchivo;
     this.objects = this.readData(this.nombreArchivo) || [];
@@ -15,27 +18,34 @@ class Contenedor {
   writeData(objects) {
     fs.writeFileSync(this.nombreArchivo, JSON.stringify(objects, null, 2));
   }
+  
 
-  // CREATE / EDIT ITEM
-  async save(obj) {
+  // CREATE
+  async addItem(obj) {
     try {
       const file = await this.getAll();
 
-      if (!file) {
-        obj.id = await this.generateId();
-        this.objects.push(obj);
-        this.writeData(this.objects);
-        return obj.id;
-      }
+      if (file) this.objects = file;
 
-      this.objects = file;
       obj.id = await this.generateId();
+      obj.timestamp = Date.now();
       this.objects.push(obj);
       this.writeData(this.objects);
       return obj.id;
 
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  // UPDATE
+  async updateItem(id, data) {
+    try {
+      const objIndex = this.objects.findIndex(obj => obj.id === id);
+      this.objects[objIndex] = { ...this.objects[objIndex], ...data };
+      this.writeData(this.objects);
+    } catch (err) {
+      throw err;
     }
   }
   
@@ -45,8 +55,8 @@ class Contenedor {
       this.objects = await this.getAll();
       const obj = this.objects.find( element => element.id === parseInt(id));
       return obj ? obj : null;
-    } catch (error) {
-      throw error
+    } catch (err) {
+      throw err
     }
   }
 
@@ -56,8 +66,8 @@ class Contenedor {
       const data = await this.readData(this.nombreArchivo);
       return data;
     }
-    catch (error) {
-      console.log(error);
+    catch (err) {
+      throw err;
     }
   }
 
@@ -67,8 +77,8 @@ class Contenedor {
       this.objects = await this.getAll();
       const obj = this.objects.filter( element => element.id !== parseInt(id) );
       this.writeData(obj);
-    } catch (error) {
-      throw error
+    } catch (err) {
+      throw err
     }
   }
 
@@ -78,9 +88,31 @@ class Contenedor {
       this.objects = await this.getAll();
       this.objects = [];
       this.writeData(this.objects);
-      console.log(this.objects); //? dejo aqui el console.log para que pueda verse que todos fueron eliminados
-    } catch (error) {
-      throw error
+    } catch (err) {
+      throw err
+    }
+  }
+
+  // ADD ITEM TO CART
+  async addProductToCart(id, idProd) {
+    const selectedCart = await this.getById(id);
+    const selectedProduct = availableProducts.find( product => product.id === idProd );
+
+    if (selectedCart && selectedProduct) {
+      selectedCart.products.push(selectedProduct);
+      this.writeData(this.objects);
+    }
+  }
+
+  // DELETE ITEM FROM CART
+  async deleteProductFromCart(id, idProd) {
+    const selectedCart = await this.getById(id);
+    const selectedProduct = availableProducts.find( product => product.id === idProd );
+
+    if (selectedCart && selectedProduct) {
+      const newProductList = selectedCart.products.filter( product => product.id !== idProd );
+      selectedCart.products = newProductList;
+      this.writeData(this.objects);
     }
   }
 
@@ -95,10 +127,10 @@ class Contenedor {
       })
 
       return maxId + 1;
-    } catch (error) {
-      throw error
+    } catch (err) {
+      throw err
     }
   }
 }
 
-module.exports = Contenedor;
+module.exports = Container;
