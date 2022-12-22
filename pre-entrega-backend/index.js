@@ -1,11 +1,17 @@
 const express = require('express');
 const app = express();
+const connectDB = require('./config/mongoDBConfig');
+const dotenv = require('dotenv');
 
 const productRoute = require('./routes/product');
 const cartRoute = require('./routes/cart');
 
 
 const PORT = process.env.PORT || 8080;
+dotenv.config()
+
+// Conectar a la DB de Mongo
+connectDB(process.env.MONGO_URI);
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
